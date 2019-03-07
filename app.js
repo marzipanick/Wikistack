@@ -11,25 +11,25 @@ db.authenticate().then(() => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
+app.use('/user', require('./routes/user'));
+app.use('/wiki', require('./routes/wiki'));
 
 app.get('/', (req, res) => {
   res.send(layout(''));
 });
 
-
 const PORT = 3000;
 
 const init = async () => {
   try {
-  await db.sync({ force: true })
-  // await db.page.sync()
+    await db.sync({ force: true });
+    // await db.page.sync()
+  } catch (error) {
+    console.error(error.message);
   }
-  catch(error) {
-    console.error(error.message)
-  }
-app.listen(3000, () => {
-  console.log(`LISTENING ON PORT ${PORT}`);
-});
-}
+  app.listen(3000, () => {
+    console.log(`LISTENING ON PORT ${PORT}`);
+  });
+};
 
-init()
+init();
