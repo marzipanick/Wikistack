@@ -16,8 +16,20 @@ app.get('/', (req, res) => {
   res.send(layout(''));
 });
 
+
 const PORT = 3000;
 
-app.listen(PORT, () => {
+const init = async () => {
+  try {
+  await db.sync({ force: true })
+  // await db.page.sync()
+  }
+  catch(error) {
+    console.error(error.message)
+  }
+app.listen(3000, () => {
   console.log(`LISTENING ON PORT ${PORT}`);
 });
+}
+
+init()
